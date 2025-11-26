@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 207 37% 24%; /* #1e3a5f - bennco-navy */
+  --muted: 43 33% 97%; /* #f7f5f1 - bennco-beige */
+  --muted-foreground: 215 16% 47%; /* #6b7280 - warm-gray */
+  --popover: 0 0% 100%;
+  --popover-foreground: 207 37% 24%;
+  --card: 0 0% 100%;
+  --card-foreground: 207 37% 24%;
+  --border: 220 13% 91%;
+  --input: 220 13% 91%;
+  --primary: 152 45% 49%; /* #4a7c59 - bennco-green */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 43 33% 97%;
+  --secondary-foreground: 207 37% 24%;
+  --accent: 43 33% 97%;
+  --accent-foreground: 207 37% 24%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 60 9.1% 97.8%;
+  --ring: 207 37% 24%;
+  --radius: 0.5rem;
+
+  /* Custom BennCo colors */
+  --bennco-navy: 207 37% 24%; /* #1e3a5f */
+  --bennco-beige: 43 33% 97%; /* #f7f5f1 */
+  --bennco-green: 155 60% 40%; /* #2B8F47 - matching logo green */
+  --bennco-purple: 280 45% 55%; /* #9966CC - matching logo purple */
+  --warm-gray: 215 16% 47%; /* #6b7280 */
+}
+
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --primary: 152 45% 49%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --ring: 240 4.9% 83.9%;
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .font-inter {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .text-bennco-navy {
+    color: hsl(var(--bennco-navy));
+  }
+  
+  .bg-bennco-beige {
+    background-color: hsl(var(--bennco-beige));
+  }
+  
+  .bg-bennco-green {
+    background-color: hsl(var(--bennco-green));
+  }
+  
+  .text-warm-gray {
+    color: hsl(var(--warm-gray));
+  }
+  
+  .hover\:bg-green-700:hover {
+    background-color: #15803d;
+  }
+  
+  .border-bennco-green {
+    border-color: hsl(var(--bennco-green));
+  }
+  
+  /* Enhanced visual effects */
+  .glass-effect {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--bennco-green)), hsl(var(--bennco-purple)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .shadow-premium {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-page-enter {
+    animation: pageEnter 0.5s ease-out forwards;
+  }
+  
+  .animate-page-exit {
+    animation: pageExit 0.3s ease-in forwards;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  @keyframes pageEnter {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes pageExit {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+  }
+  
+  .bg-gradient-premium {
+    background: linear-gradient(135deg, 
+      hsl(var(--bennco-green)) 0%, 
+      hsl(var(--bennco-purple)) 100%);
+  }
+  
+  .text-bennco-purple {
+    color: hsl(var(--bennco-purple));
+  }
+  
+  .bg-bennco-purple {
+    background-color: hsl(var(--bennco-purple));
+  }
+  
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+}

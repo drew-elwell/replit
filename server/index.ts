@@ -1,0 +1,114 @@
+import { config } from "dotenv";
+config(); // Load environment variables from .env file
+
+import express, { type Request, Response, NextFunction } from "express";
+import { registerRoutes } from "./routes";
+import { setupVite, serveStatic, log } from "./vite";
+
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.use((req, res, next) => {
+  const start = Date.now();
+  const path = req.path;
+  let capturedJsonResponse: Record<string, any> | undefined = undefined;
+
+  const originalResJson = res.json;
+  res.json = function (bodyJson, ...args) {
+    capturedJsonResponse = bodyJson;
+    return originalResJson.apply(res, [bodyJson, ...args]);
+  };
+
+  res.on("finish", () => {
+    const duration = Date.now() - start;
+    if (path.startsWith("/api")) {
+      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
+      if (capturedJsonResponse) {
+        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
+      }
+
+      if (logLine.length > 80) {
+        logLine = logLine.slice(0, 79) + "…";
+      }
+
+      log(logLine);
+    }
+  });
+
+  next();
+});
+
+async function startServer() {
+  log("Initializing server...");
+  
+  const server = await registerRoutes(app);
+  log("Routes registered successfully");
+
+  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+    const status = err.status || err.statusCode || 500;
+    const message = err.message || "Internal Server Error";
+    res.status(status).json({ message });
+    console.error('Server error:', err);
+  });
+
+  const port = parseInt(process.env.PORT || "5000", 10);
+  
+  // Start server immediately
+  await new Promise<void>((resolve, reject) => {
+    server.listen(port, "0.0.0.0", () => {
+      log(`serving on port ${port}`);
+      resolve();
+    });
+    
+    server.on('error', reject);
+  });
+
+  // Setup Vite after server is listening
+  const isDevelopment = process.env.NODE_ENV === "development" || app.get("env") === "development";
+  log(`NODE_ENV: ${process.env.NODE_ENV}`);
+  log(`App environment: ${app.get("env")}`);
+  log(`Using development mode: ${isDevelopment}`);
+  
+  if (isDevelopment) {
+    try {
+      log("Setting up Vite...");
+      await setupVite(app, server);
+      log("Vite setup complete");
+      
+      // Test server responsiveness
+      setTimeout(() => {
+        log("Server should be ready for requests");
+      }, 1000);
+      
+    } catch (viteError) {
+      log(`Vite setup failed: ${viteError}`);
+      log("Falling back to static file serving");
+      serveStatic(app);
+    }
+  } else {
+    log("Not in development mode, using static file serving");
+    serveStatic(app);
+  }
+  
+  server.on('error', (err: any) => {
+    log(`Server error: ${err.message}`);
+    if (err.code === 'EADDRINUSE') {
+      log(`Port ${port} is already in use`);
+      process.exit(1);
+    }
+  });
+
+  // Ensure server stays alive
+  process.on('SIGTERM', () => {
+    log('SIGTERM received, shutting down gracefully');
+    server.close(() => {
+      process.exit(0);
+    });
+  });
+}
+
+startServer().catch(err => {
+  log(`Fatal error: ${err.message}`);
+  process.exit(1);
+});

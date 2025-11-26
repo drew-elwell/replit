@@ -1,0 +1,45 @@
+I’d like you to scaffold a **multipage website** for BennCo Advisors in Replit (HTML/CSS/JS) that matches this wireframe mockup:
+
+1. Create these pages:
+   - index.html (Home)
+   - about.html (About Us)
+   - investment-management.html (Investment Management)
+   - estate-planning.html (Estate Planning)
+   - retirement-planning.html (Retirement Planning)
+   - contact.html (Contact)
+
+2. On **every page** include a **sticky nav bar** at the top with:
+   - BennCo logo on the left
+   - Links: Home, About, Investments, Estate, Retirement
+   - A “Schedule Free Meeting” button on the right
+
+3. **Pull content** from **https://www.bennco.com/local-bennco-financial-advisors-company-retirement-planning-colorado-springs-co** for the About, Investment Management, Estate Planning, and Retirement Planning pages.  
+   - Copy the main headings and descriptive paragraphs verbatim (or lightly edited for clarity).
+
+4. **index.html (Home)**:
+   - Full-width Colorado backdrop hero with headline “Your Retirement. Our Priority.” and subhead from bennco.com homepage.
+   - A “Schedule Free Meeting” CTA.
+   - 4-step process bar: Plan → Implement → Monitor → Adjust.
+   - Two-column Why BennCo + Services section (use the services and bullets from bennco.com).
+   - Meet the Team carousel with headshots and CFP® designations (use images/text from bennco.com/team).
+   - Contact teaser with map embed, address, phone, and hours (pulled from bennco.com/contact).
+
+5. **About, Investment Management, Estate Planning, Retirement Planning**:
+   - Each page should have a hero title and the corresponding copy from bennco.com.
+   - Use the same site header/nav and footer.
+
+6. **contact.html**:
+   - Embed the Google Map iframe for the Colorado Springs office.
+   - Display address, phone number, email, hours (copy from bennco.com/contact).
+   - No form—just static details and a “Schedule Free Meeting” button.
+
+7. **Styling**:
+   - Use plain CSS (no frameworks).  
+   - Mobile-responsive, warm color palette (deep navy for text, soft beige backgrounds, green CTAs).  
+   - Smooth scroll on nav links (`scroll-behavior: smooth`).
+
+8. **Assets**:
+   - Fetch BennCo logo from bennco.com (logo URL).
+   - Use headshot images from bennco.com/team.
+
+Please output all six HTML files, a single `styles.css`, and a `script.js` for the nav scroll behavior.  
